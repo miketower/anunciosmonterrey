@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anuncios Luminosos, Neón LED y Letras 3D en Monterrey | anunciosmonterrey.com</title>
+    <meta name="description" content="Fabricación e instalación de anuncios luminosos, cajas de luz, neón flex, letras 3D, corte CNC, glorificadores y rotulación en vinil en Monterrey y ZMM.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0F172A',     // Slate 900
+                            slate: '#1E293B',    // Slate 800
+                            amber: '#F59E0B',    // Amber 500
+                            yellow: '#FACC15',   // Yellow 400
+                            neon: '#FFD700'      // Gold/Neon highlight
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .text-glow {
+            text-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-amber selection:text-white"
+      x-data="landingApp()">
+
+    <!-- Header Flotante / Navegación -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-brand-navy/95 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-brand-amber to-brand-yellow flex items-center justify-center text-brand-navy font-black text-xl shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+                        AM
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xl font-black tracking-tight text-white">anuncios<span class="text-brand-yellow">monterrey</span><span class="text-brand-amber">.com</span></span>
+                        <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Fabricación & Publicidad Visual</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                    <a href="#servicios" class="hover:text-brand-yellow transition-colors">Servicios</a>
+                    <a href="#cotizador" class="hover:text-brand-yellow transition-colors">Calculadora</a>
+                    <a href="#nosotros" class="hover:text-brand-yellow transition-colors">Ventajas</a>
+                    <a href="#portafolio" class="hover:text-brand-yellow transition-colors">Portafolio</a>
+                    <a href="#proceso" class="hover:text-brand-yellow transition-colors">Proceso</a>
+                </nav>
+
+                <!-- Desktop CTA WhatsApp -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a :href="getGeneralWhatsAppLink()" target="_blank" rel="noopener"
+                       class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-full font-bold text-sm transition-all shadow-md hover:shadow-emerald-500/20 hover:-translate-y-0.5">
+                        <i class="fa-brands fa-whatsapp text-lg">
+                        </i>
+                        <span>Cotizar por WhatsApp</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" class="text-slate-300 hover:text-white p-2 text-xl focus:outline-none" aria-label="Toggle navigation">
+                        <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-2"
+             class="md:hidden bg-brand-slate border-b border-slate-700 px-4 pt-2 pb-6 space-y-3">
+            <a @click="mobileMenuOpen = false" href="#servicios" class="block py-2 text-slate-200 font-medium hover:text-brand-yellow">Servicios</a>
+            <a @click="mobileMenuOpen = false" href="#cotizador" class="block py-2 text-slate-200 font-medium hover:text-brand-yellow">Calculadora de Cotización</a>
+            <a @click="mobileMenuOpen = false" href="#nosotros" class="block py-2 text-slate-200 font-medium hover:text-brand-yellow">Ventajas Competitivas</a>
+            <a @click="mobileMenuOpen = false" href="#portafolio" class="block py-2 text-slate-200 font-medium hover:text-brand-yellow">Galería de Proyectos</a>
+            <a @click="mobileMenuOpen = false" href="#proceso" class="block py-2 text-slate-200 font-medium hover:text-brand-yellow">Proceso de Trabajo</a>
+            <a @click="mobileMenuOpen = false" href="#contacto" class="block py-2 text-slate-200 font-medium hover:text-brand-yellow">Contacto</a>
+            <a :href="getGeneralWhatsAppLink()" target="_blank" rel="noopener"
+               class="mt-4 w-full flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl font-bold text-center">
+                <i class="fa-brands fa-whatsapp text-xl"></i>
+                <span>Cotizar Inmediatamente</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-brand-navy overflow-hidden">
+        <!-- Background Decorative Glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-amber/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <!-- Top Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/80 border border-slate-700 text-brand-yellow text-xs sm:text-sm font-semibold mb-6 shadow-inner">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Fabricantes Directos en Monterrey y Zona Metropolitana
+                </div>
+
+                <!-- H1 Headline -->
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-6">
+                    Hacemos que tu Negocio <br class="hidden sm:inline">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-yellow via-brand-amber to-yellow-300 text-glow">
+                        Destaque y Brillé
+                    </span> en Monterrey
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-lg sm:text-xl text-slate-300 font-normal max-w-2xl mx-auto mb-8 leading-relaxed">
+                    Especialistas en <strong>Anuncios Luminosos, Neón LED, Letras 3D, Glorificadores, Corte CNC y Rotulación</strong>. Calidad premium con entrega e instalación garantizada.
+                </p>
+
+                <!-- Value Badges -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto mb-10 text-left">
+                    <div class="flex items-center gap-3 bg-slate-800/60 border border-slate-700/60 p-3 rounded-xl">
+                        <i class="fa-solid fa-bolt text-brand-yellow text-xl"></i>
+                        <span class="text-xs sm:text-sm text-slate-200 font-medium">Cotización rápida en menos de 24h</span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-800/60 border border-slate-700/60 p-3 rounded-xl">
+                        <i class="fa-solid fa-screwdriver-wrench text-brand-yellow text-xl"></i>
+                        <span class="text-xs sm:text-sm text-slate-200 font-medium">Instalación segura profesional</span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-slate-800/60 border border-slate-700/60 p-3 rounded-xl">
+                        <i class="fa-solid fa-shield-halved text-brand-yellow text-xl"></i>
+                        <span class="text-xs sm:text-sm text-slate-200 font-medium">Materiales de alta durabilidad</span>
+                    </div>
+                </div>
+
+                <!-- Primary CTAs -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a :href="getGeneralWhatsAppLink()" target="_blank" rel="noopener"
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-8 py-4 rounded-xl text-lg shadow-xl shadow-emerald-500/20 hover:scale-105 transition-all">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <span>Cotizar por WhatsApp</span>
+                    </a>
+                    <a href="#cotizador" 
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 font-bold px-8 py-4 rounded-xl text-lg transition-all">
+                        <i class="fa-solid fa-calculator text-brand-yellow"></i>
+                        <span>Calcular Precio</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Cotizador / Calculadora Rapida -->
+    <section id="cotizador" class="py-16 bg-slate-900 border-t border-slate-800 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-brand-slate border border-slate-700 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-yellow/5 rounded-full blur-xl pointer-events-none"></div>
+
+                <div class="text-center mb-8">
+                    <span class="text-brand-yellow font-bold text-xs uppercase tracking-widest">Cotizador Interactivo Express</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Calcula tu Proyecto e Inicia tu Pedido</h2>
+                    <p class="text-slate-400 text-sm mt-2">Selecciona el tipo de trabajo y medidas aproximadas para enviarte la propuesta formal por WhatsApp.</p>
+                </div>
+
+                <form @submit.prevent="sendCalcWhatsApp()" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Servicio -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-2">1. Selecciona el Servicio</label>
+                            <select x-model="calcService" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-yellow">
+                                <option value="Letras 3D & Logos Corpóreos">Letras 3D & Logos Corpóreos</option>
+                                <option value="Anuncio Luminoso / Caja de Luz">Anuncio Luminoso / Caja de Luz</option>
+                                <option value="Neón Flex / Neón LED">Neón Flex / Neón LED Personalizado</option>
+                                <option value="Glorificador / Exhibidor">Glorificador o Exhibidor de Producto</option>
+                                <option value="Corte CNC / Ruteado">Corte CNC / Ruteado de Materiales</option>
+                                <option value="Rotulación / Corte Vinil">Rotulación / Vinil Decorativo o Cristal</option>
+                                <option value="Impresión Lona Gran Formato">Impresión de Lona Gran Formato</option>
+                                <option value="Otro Servicio Especial">Otro servicio / Proyecto especial</option>
+                            </select>
+                        </div>
+
+                        <!-- Instalacion requierida? -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-2">2. ¿Requieres Instalación?</label>
+                            <select x-model="calcInstallation" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-yellow">
+                                <option value="Sí, requiere instalación en Monterrey / ZMM">Sí, requiere instalación en Monterrey / ZMM</option>
+                                <option value="No, solo requiero la fabricación (Entrega en taller)">No, solo fabricación (Entrega o envío)</option>
+                                <option value="Por definir / Requiero asesoría">Por definir / Requiero asesoría técnico-comercial</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Dimensiones -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-2">3. Medidas Aproximadas (Ancho x Alto)</label>
+                            <input type="text" x-model="calcDimensions" placeholder="Ej: 2 metros x 80 cm" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-brand-yellow">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-2">4. Tu Nombre o Nombre de Negocio</label>
+                            <input type="text" x-model="calcClientName" placeholder="Ej: Carlos - Restaurante El Regio" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-brand-yellow" required>
+                        </div>
+                    </div>
+
+                    <!-- Comentarios Adicionales -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-2">5. Detalles adicionales (opcional)</label>
+                        <textarea x-model="calcDetails" rows="2" placeholder="Ej: Es para exterior, busco iluminación LED cálida, cuento con diseño en vectores..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-brand-yellow text-sm"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" 
+                            class="w-full bg-gradient-to-r from-brand-amber to-brand-yellow hover:from-amber-600 hover:to-yellow-500 text-brand-navy font-black py-4 rounded-xl text-center text-lg flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-[1.01]">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <span>Generar Cotización y Enviar por WhatsApp</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Especializados -->
+    <section id="servicios" class="py-20 bg-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-amber font-extrabold text-sm uppercase tracking-widest">Nuestra Especialidad</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2">Servicios de Fabricación Publicitaria</h2>
+                <p class="text-slate-600 mt-3 text-base sm:text-lg">Soluciones integrales de comunicación visual con acabados de alta definición para comercio, industria y arquitectura.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-slate-200/80 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-brand-amber flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-amber group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-cube"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Letras 3D & Logos Corpóreos</h3>
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                            Fabricación en acrílico, aluminio, acero inoxidable y MDF. Opciones con iluminación LED indirecta, frontal o tipo halo para fachadas e interiores de oficina.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Acrílico</span>
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Aluminio</span>
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Luz LED</span>
+                        </div>
+                    </div>
+                    <button @click="quickQuote('Letras 3D y Corpóreos')" class="w-full text-center bg-slate-900 hover:bg-brand-amber text-white font-bold py-2.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp"></i> Cotizar Letras 3D
+                    </button>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-slate-200/80 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-brand-amber flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-amber group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Anuncios Luminosos & Cajas de Luz</h3>
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                            Cajas de luz tradicionales y de perfil delgado de alta eficiencia energética. Lona traslúcida, acrílico con rotulación de vinil y estructuras de alta resistencia al exterior.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Fachadas</span>
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">LED Bajo Consumo</span>
+                        </div>
+                    </div>
+                    <button @click="quickQuote('Anuncio Luminoso / Caja de Luz')" class="w-full text-center bg-slate-900 hover:bg-brand-amber text-white font-bold py-2.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp"></i> Cotizar Anuncio Luminoso
+                    </button>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-slate-200/80 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-brand-amber flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-amber group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-bolt-lightning"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Neón Flex / LED Personalizado</h3>
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                            Diseños creativos en Neón Flex de baja tensión sobre base de acrílico transparente. Ideal para restaurantes, bares, eventos, photo opportunities y decoración comercial.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Diseño Moderno</span>
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Bajo voltaje</span>
+                        </div>
+                    </div>
+                    <button @click="quickQuote('Anuncios de Neón Flex')" class="w-full text-center bg-slate-900 hover:bg-brand-amber text-white font-bold py-2.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp"></i> Cotizar Neón LED
+                    </button>
+                </div>
+
+                <!-- Service Card 4 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-slate-200/80 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-brand-amber flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-amber group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-wine-bottle"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Glorificadores de Producto</h3>
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                            Exhibidores y bases iluminadas diseñadas a la medida para destacar botellas, cosméticos, calzado o electrónicos en puntos de venta, antros y exposiciones.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Punto de Venta</span>
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Acrílico Premium</span>
+                        </div>
+                    </div>
+                    <button @click="quickQuote('Glorificadores de Producto')" class="w-full text-center bg-slate-900 hover:bg-brand-amber text-white font-bold py-2.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp"></i> Cotizar Glorificador
+                    </button>
+                </div>
+
+                <!-- Service Card 5 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-slate-200/80 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-brand-amber flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-amber group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-gear"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Corte CNC & Ruteado</h3>
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                            Maquila de corte de alta precisión en router CNC y láser. Grabado y ruteado de paneles de acrílico, MDF, alucobond (ACP), madera y plásticos de ingeniería.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">MDF</span>
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Alucobond</span>
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Maquila</span>
+                        </div>
+                    </div>
+                    <button @click="quickQuote('Corte CNC y Ruteado')" class="w-full text-center bg-slate-900 hover:bg-brand-amber text-white font-bold py-2.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp"></i> Cotizar Corte CNC
+                    </button>
+                </div>
+
+                <!-- Service Card 6 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-slate-200/80 transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-brand-amber flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-amber group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-border-all"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Rotulación & Corte de Vinil</h3>
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed">
+                            Instalación de vinil de corte, impreso, microperforado para cristales, muros corporativos, esquemas de señalética y rotulación comercial vehicular.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Microperforado</span>
+                            <span class="text-[11px] bg-slate-100 font-semibold px-2.5 py-1 rounded-md text-slate-600">Vinil Texturizado</span>
+                        </div>
+                    </div>
+                    <button @click="quickQuote('Rotulación y Vinil')" class="w-full text-center bg-slate-900 hover:bg-brand-amber text-white font-bold py-2.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp"></i> Cotizar Vinil
+                    </button>
+                </div>
+            </div>
+
+            <!-- Extra Banner for Lonas -->
+            <div class="mt-12 bg-gradient-to-r from-brand-navy to-slate-800 rounded-2xl p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+                <div class="flex items-center gap-5">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-yellow/20 text-brand-yellow flex items-center justify-center text-3xl shrink-0">
+                        <i class="fa-solid fa-print"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold">Impresión de Lonas de Gran Formato</h4>
+                        <p class="text-slate-300 text-sm mt-1">Lonas publicitarias, bastidores metálicos, banners y espectaculares con tintas UV de larga duración resistentes al clima de Monterrey.</p>
+                    </div>
+                </div>
+                <button @click="quickQuote('Impresión de Lonas Gran Formato')" class="shrink-0 bg-brand-yellow hover:bg-yellow-400 text-brand-navy font-black px-6 py-3 rounded-xl transition-transform hover:scale-105 flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Cotizar Lonas
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ventajas Competitivas -->
+    <section id="nosotros" class="py-20 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-amber font-extrabold text-sm uppercase tracking-widest">¿Por Qué Elegirnos?</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2">Ventajas de Trabajar con Anuncios Monterrey</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-xl bg-slate-900 text-brand-yellow flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-compass-drafting"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Asesoría & Render 3D</h3>
+                    <p class="text-slate-600 text-sm">Visualiza exactamente cómo se verá tu anuncio montado en tu fachada antes de mandar a fabricar.</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-xl bg-slate-900 text-brand-yellow flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Soporte Clima Regio</h3>
+                    <p class="text-slate-600 text-sm">Usamos materiales y recubrimientos listos para soportar el calor extremo y lluvias del estado de N.L.</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-xl bg-slate-900 text-brand-yellow flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-industry"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Precios Directos de Taller</h3>
+                    <p class="text-slate-600 text-sm">Somos fabricantes directos. Cero intermediarios, precios competitivos y tiempos de entrega controlados.</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="w-12 h-12 rounded-xl bg-slate-900 text-brand-yellow flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Instalación Certificada</h3>
+                    <p class="text-slate-600 text-sm">Equipo capacitado para maniobras de montaje en altura, cableado eléctrico e instalaciones complejas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería / Portafolio con Filtros -->
+    <section id="portafolio" class="py-20 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-brand-yellow font-bold text-xs uppercase tracking-widest">Demostración de Trabajo</span>
+                <h2 class="text-3xl sm:text-4xl font-black mt-2">Galería de Proyectos Recientes</h2>
+                <p class="text-slate-400 mt-2">Explora algunos de los proyectos entregados a negocios locales e industriales.</p>
+
+                <!-- Filter Tabs -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mt-8">
+                    <button @click="portfolioFilter = 'all'" 
+                            :class="portfolioFilter === 'all' ? 'bg-brand-yellow text-brand-navy font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'"
+                            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all">
+                        Todos
+                    </button>
+                    <button @click="portfolioFilter = 'letras3d'" 
+                            :class="portfolioFilter === 'letras3d' ? 'bg-brand-yellow text-brand-navy font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'"
+                            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all">
+                        Letras 3D
+                    </button>
+                    <button @click="portfolioFilter = 'neon'" 
+                            :class="portfolioFilter === 'neon' ? 'bg-brand-yellow text-brand-navy font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'"
+                            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all">
+                        Neón LED
+                    </button>
+                    <button @click="portfolioFilter = 'luminosos'" 
+                            :class="portfolioFilter === 'luminosos' ? 'bg-brand-yellow text-brand-navy font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'"
+                            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all">
+                        Anuncios Luminosos
+                    </button>
+                    <button @click="portfolioFilter = 'glorificadores'" 
+                            :class="portfolioFilter === 'glorificadores' ? 'bg-brand-yellow text-brand-navy font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'"
+                            class="px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all">
+                        Glorificadores
+                    </button>
+                </div>
+            </div>
+
+            <!-- Portfolio Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Item 1 -->
+                <div x-show="portfolioFilter === 'all' || portfolioFilter === 'letras3d'" class="group relative overflow-hidden rounded-2xl bg-slate-800 aspect-video border border-slate-700">
+                    <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80" alt="Letras 3D Iluminadas" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent p-6 flex flex-col justify-end">
+                        <span class="text-brand-yellow text-xs font-bold uppercase">San Pedro Garza García</span>
+                        <h3 class="text-lg font-bold text-white">Letras Corpóreas en Acero e Iluminación Halo</h3>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div x-show="portfolioFilter === 'all' || portfolioFilter === 'neon'" class="group relative overflow-hidden rounded-2xl bg-slate-800 aspect-video border border-slate-700">
+                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80" alt="Letrero Neon Flex" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent p-6 flex flex-col justify-end">
+                        <span class="text-brand-yellow text-xs font-bold uppercase">Bar & Restaurante Barrio Antiguo</span>
+                        <h3 class="text-lg font-bold text-white">Letrero Decorativo en Neón Flex</h3>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div x-show="portfolioFilter === 'all' || portfolioFilter === 'luminosos'" class="group relative overflow-hidden rounded-2xl bg-slate-800 aspect-video border border-slate-700">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" alt="Caja de Luz Luminosa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent p-6 flex flex-col justify-end">
+                        <span class="text-brand-yellow text-xs font-bold uppercase">Plaza Comercial Cumbres</span>
+                        <h3 class="text-lg font-bold text-white">Anuncio Luminoso de Fachada LED</h3>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div x-show="portfolioFilter === 'all' || portfolioFilter === 'glorificadores'" class="group relative overflow-hidden rounded-2xl bg-slate-800 aspect-video border border-slate-700">
+                    <img src="https://images.unsplash.com/photo-1556742049-0a670f4a4591?auto=format&fit=crop&w=800&q=80" alt="Glorificador de Producto" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent p-6 flex flex-col justify-end">
+                        <span class="text-brand-yellow text-xs font-bold uppercase">Punto de Venta</span>
+                        <h3 class="text-lg font-bold text-white">Glorificador Iluminado en Acrílico</h3>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div x-show="portfolioFilter === 'all' || portfolioFilter === 'letras3d'" class="group relative overflow-hidden rounded-2xl bg-slate-800 aspect-video border border-slate-700">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Logotipo Corporativo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent p-6 flex flex-col justify-end">
+                        <span class="text-brand-yellow text-xs font-bold uppercase">Corporativo Santa Catarina</span>
+                        <h3 class="text-lg font-bold text-white">Logo 3D Recepción en Acrílico</h3>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div x-show="portfolioFilter === 'all' || portfolioFilter === 'neon'" class="group relative overflow-hidden rounded-2xl bg-slate-800 aspect-video border border-slate-700">
+                    <img src="https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80" alt="Neón personalizado" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent p-6 flex flex-col justify-end">
+                        <span class="text-brand-yellow text-xs font-bold uppercase">Monterrey Centro</span>
+                        <h3 class="text-lg font-bold text-white">Anuncio Neón para Evento Social</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proceso de Trabajo (4 pasos) -->
+    <section id="proceso" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-amber font-extrabold text-sm uppercase tracking-widest">Simple y Eficiente</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2">¿Cómo Trabajamos tu Anuncio?</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+                <!-- Step 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 relative">
+                    <div class="w-10 h-10 rounded-full bg-brand-yellow text-brand-navy font-black flex items-center justify-center text-lg mb-4">1</div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Cotización</h3>
+                    <p class="text-slate-600 text-sm">Nos compartes las medidas aproximadas, idea o archivo vectorizado por WhatsApp o correo.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 relative">
+                    <div class="w-10 h-10 rounded-full bg-brand-yellow text-brand-navy font-black flex items-center justify-center text-lg mb-4">2</div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Diseño y Render</h3>
+                    <p class="text-slate-600 text-sm">Validamos materiales, grosores, tipo de luz y te proponemos una simulación visual.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 relative">
+                    <div class="w-10 h-10 rounded-full bg-brand-yellow text-brand-navy font-black flex items-center justify-center text-lg mb-4">3</div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Fabricación CNC</h3>
+                    <p class="text-slate-600 text-sm">Producimos con maquinaria CNC de alta precisión y ensamblamos componentes de luz LED.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 relative">
+                    <div class="w-10 h-10 rounded-full bg-brand-yellow text-brand-navy font-black flex items-center justify-center text-lg mb-4">4</div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Instalación</h3>
+                    <p class="text-slate-600 text-sm">Acudimos a tu domicilio o negocio en Monterrey y ZMM para realizar el montaje seguro.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario Tradicional & Seccion de Contacto -->
+    <section id="contacto" class="py-20 bg-brand-navy text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Info Column -->
+                <div>
+                    <span class="text-brand-yellow font-bold text-xs uppercase tracking-widest">Contacto Directo</span>
+                    <h2 class="text-3xl sm:text-4xl font-black mt-2">¿Tienes un Proyecto en Mente? Platiquemos Hoy</h2>
+                    <p class="text-slate-300 mt-4 leading-relaxed">
+                        Atendemos solicitudes para pequeños negocios, franquicias, arquitectos, agencias y corporativos en todo Nuevo León.
+                    </p>
+
+                    <div class="space-y-6 mt-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-800 text-brand-yellow flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Ubicación y Cobertura</h4>
+                                <p class="text-slate-400 text-sm">Monterrey, San Pedro, Guadalupe, San Nicolás, Apodaca, Santa Catarina y Cienega de Flores, N.L.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-800 text-emerald-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Atención Inmediata por WhatsApp</h4>
+                                <p class="text-slate-400 text-sm">Respuesta ágil de Lunes a Sábado de 8:00 am a 7:00 pm</p>
+                                <a :href="getGeneralWhatsAppLink()" target="_blank" class="text-emerald-400 font-bold text-sm hover:underline mt-1 inline-block">+52 (81) 8000-0000 (Click para chatear)</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-800 text-brand-yellow flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Correo Electrónico</h4>
+                                <p class="text-slate-400 text-sm">contacto@anunciosmonterrey.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Column -->
+                <div class="bg-brand-slate border border-slate-700 p-8 rounded-2xl shadow-xl">
+                    <h3 class="text-xl font-bold text-white mb-6">Envíanos un mensaje</h3>
+                    <form @submit.prevent="sendFormContact()" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Nombre Completo</label>
+                            <input type="text" x-model="contactName" placeholder="Tu nombre" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-yellow" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Teléfono / WhatsApp</label>
+                            <input type="tel" x-model="contactPhone" placeholder="81 0000 0000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-yellow" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">¿Qué requiere tu negocio?</label>
+                            <textarea x-model="contactMsg" rows="3" placeholder="Platícanos sobre tu proyecto..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-yellow" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-yellow hover:bg-yellow-400 text-brand-navy font-black py-3.5 rounded-xl transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Enviar Solicitud</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 text-slate-400 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- Brand Info -->
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-md bg-brand-amber text-brand-navy font-black flex items-center justify-center text-sm">
+                        AM
+                    </div>
+                    <span class="text-lg font-bold text-white">anuncios<span class="text-brand-yellow">monterrey</span>.com</span>
+                </div>
+
+                <!-- Footer Links -->
+                <div class="flex flex-wrap justify-center gap-6 text-sm font-medium">
+                    <a href="#servicios" class="hover:text-white transition-colors">Servicios</a>
+                    <a href="#cotizador" class="hover:text-white transition-colors">Cotizador</a>
+                    <a href="#portafolio" class="hover:text-white transition-colors">Portafolio</a>
+                    <a href="#contacto" class="hover:text-white transition-colors">Contacto</a>
+                    <a href="#" class="hover:text-white transition-colors">Aviso de Privacidad</a>
+                </div>
+
+                <!-- Social Icons -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 hover:text-brand-yellow transition-colors" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 hover:text-brand-yellow transition-colors" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-slate-800/80 text-center text-xs text-slate-500">
+                <p>&copy; <span x-text="new Date().getFullYear()"></span> anunciosmonterrey.com - Todos los derechos reservados. Fabricación e Instalación de Anuncios en Monterrey, Nuevo León.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Persistent Floating WhatsApp Button (Fixed Bottom Right) -->
+    <a :href="getGeneralWhatsAppLink()" target="_blank" rel="noopener" 
+       class="fixed bottom-6 right-6 z-50 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 transition-all hover:bg-emerald-600 focus:outline-none"
+       aria-label="Contactar por WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Alpine.js Application Logic -->
+    <script>
+        function landingApp() {
+            return {
+                // Configura aquí tu número real de WhatsApp de Monterrey (10 dígitos sin espacios)
+                whatsappNumber: "528180000000", 
+                
+                mobileMenuOpen: false,
+                portfolioFilter: 'all',
+
+                // Dynamic Calc Form Data
+                calcService: 'Letras 3D & Logos Corpóreos',
+                calcInstallation: 'Sí, requiere instalación en Monterrey / ZMM',
+                calcDimensions: '',
+                calcClientName: '',
+                calcDetails: '',
+
+                // Contact Form Data
+                contactName: '',
+                contactPhone: '',
+                contactMsg: '',
+
+                // Link de WhatsApp genérico
+                getGeneralWhatsAppLink() {
+                    const msg = encodeURIComponent("¡Hola! Me interesa cotizar un anuncio para mi negocio desde anunciosmonterrey.com");
+                    return `https://wa.me/${this.whatsappNumber}?text=${msg}`;
+                },
+
+                // Envío desde la calculadora
+                sendCalcWhatsApp() {
+                    let msgText = `*NUEVA COTIZACIÓN DESDE ANUNCIOSMONTERREY.COM*\n\n`;
+                    msgText += `👤 *Cliente/Negocio:* ${this.calcClientName}\n`;
+                    msgText += `🛠️ *Servicio:* ${this.calcService}\n`;
+                    msgText += `📏 *Medidas:* ${this.calcDimensions || 'Por definir'}\n`;
+                    msgText += `🚚 *Instalación:* ${this.calcInstallation}\n`;
+                    if (this.calcDetails) {
+                        msgText += `📝 *Detalles:* ${this.calcDetails}\n`;
+                    }
+                    
+                    const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgText)}`;
+                    window.open(url, '_blank');
+                },
+
+                // Cotización directa desde una card de servicio
+                quickQuote(serviceName) {
+                    const msgText = `Hola, me interesa solicitar información y cotización para *${serviceName}* en Monterrey.`;
+                    const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgText)}`;
+                    window.open(url, '_blank');
+                },
+
+                // Envío desde el formulario final
+                sendFormContact() {
+                    let msgText = `*MENSAJE DE CONTACTO (anunciosmonterrey.com)*\n\n`;
+                    msgText += `👤 *Nombre:* ${this.contactName}\n`;
+                    msgText += `📞 *Teléfono:* ${this.contactPhone}\n`;
+                    msgText += `💬 *Mensaje:* ${this.contactMsg}\n`;
+
+                    const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgText)}`;
+                    window.open(url, '_blank');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
